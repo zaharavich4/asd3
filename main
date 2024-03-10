@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Функція для створення арифметичної прогресії та обчислення суми
+void generateArithmeticProgression(std::vector<int>& progression, int a1, int d, int N) {
+    progression.clear();
+
+    int sum = 0;
+
+    for (int n = 1; n <= N; ++n) {
+        int an = a1 + d * (n - 1);
+        progression.push_back(an);
+        sum += an;
+    }
+
+    std::cout << "Generated Arithmetic Progression:" << std::endl;
+    for (int element : progression) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Sum of the Arithmetic Progression: " << sum << std::endl;
+}
+
+// Абстрактне сортування
+void abstractSort(std::vector<int>& arr) {
+    std::sort(arr.begin(), arr.end());
+}
+
+// Двохшляхове злиття
+void mergeSort(std::vector<int>& arr) {
+    if (arr.size() <= 1) {
+        return;
+    }
+
+    int mid = arr.size() / 2;
+    std::vector<int> left(arr.begin(), arr.begin() + mid);
+    std::vector<int> right(arr.begin() + mid, arr.end());
+
+    mergeSort(left);
+    mergeSort(right);
+
+    std::merge(left.begin(), left.end(), right.begin(), right.end(), arr.begin());
+}
+
+int main() {
+    int a1, d, N;
+
+    std::cout << "Enter the first term (a1) of the arithmetic progression: ";
+    std::cin >> a1;
+
+    std::cout << "Enter the common difference (d) of the arithmetic progression: ";
+    std::cin >> d;
+
+    std::cout << "Enter the size (N) of the array (100 < N < 1000): ";
+    std::cin >> N;
+
+    if (N <= 100 || N >= 1000) {
+        std::cerr << "Invalid array size. Size should be between 100 and 1000." << std::endl;
+        return 1;
+    }
+
+    std::vector<int> progression;
+    generateArithmeticProgression(progression, a1, d, N);
+
+    // Копіюємо прогресію для сортування
+    std::vector<int> sortedProgression = progression;
+
+    // Абстрактне сортування
+    abstractSort(sortedProgression);
+    std::cout << "Sorted using abstract sort:" << std::endl;
+    for (int element : sortedProgression) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+
+    // Двохшляхове злиття
+    mergeSort(progression);
+    std::cout << "Sorted using merge sort:" << std::endl;
+    for (int element : progression) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
